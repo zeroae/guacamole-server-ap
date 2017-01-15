@@ -2,7 +2,7 @@
   "consul": "{{ if .CONSUL_AGENT }}localhost{{ else }}{{ if .CONSUL }}{{ .CONSUL }}{{ else }}consul{{ end }}{{ end }}:8500",
   "services": [
     {
-      "name": "guacd",
+      "name": "guacamole-server",
       "port": 4822,
       "poll": 10,
       "ttl": 25

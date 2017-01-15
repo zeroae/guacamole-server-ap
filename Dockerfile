@@ -22,7 +22,8 @@ RUN yum -y install unzip && \
 
 # Install Consul
 # Releases at https://releases.hashicorp.com/consul
-RUN curl --retry 7 --fail -vo /tmp/consul.zip "https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip" \
+RUN curl --retry 7 --fail -vo /tmp/consul.zip \
+         "https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip" \
     && echo "${CONSUL_SHA256}  /tmp/consul.zip" | sha256sum -c \
     && unzip /tmp/consul -d /usr/local/bin \
     && rm /tmp/consul.zip \
@@ -35,16 +36,16 @@ RUN mkdir -p /etc/consul \
 
 # Install Consul template
 # Releases at https://releases.hashicorp.com/consul-template/
-RUN curl --retry 7 --fail -Lso /tmp/consul-template.zip "https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip" \
+RUN curl --retry 7 --fail -Lso /tmp/consul-template.zip \
+         "https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_amd64.zip" \
     && echo "${CONSUL_TEMPLATE_SHA256}  /tmp/consul-template.zip" | sha256sum -c \
     && unzip /tmp/consul-template.zip -d /usr/local/bin \
     && rm /tmp/consul-template.zip
 
 
-# Add ContainerPilot and its configuration
-ENV CONTAINERPILOT_VERSION 2.6.0
-ENV CONTAINERPILOT file:///etc/containerpilot.json
-RUN curl -Lso /tmp/containerpilot.tar.gz \
+# Install ContainerPilot
+# Releases at https://github.com/joyent/containerpilot/
+RUN curl --retry7 --fail -Lso /tmp/containerpilot.tar.gz \
          "https://github.com/joyent/containerpilot/releases/download/${CONTAINERPILOT_VERSION}/containerpilot-${CONTAINERPILOT_VERSION}.tar.gz" \
     && echo "${CONTAINERPILOT_SHA1}  /tmp/containerpilot.tar.gz" | sha1sum -c \
     && tar zxf /tmp/containerpilot.tar.gz -C /usr/local/bin \

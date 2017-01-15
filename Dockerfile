@@ -17,8 +17,9 @@ ENV \
     CONTAINERPILOT=file:///etc/containerpilot.json
 
 # We need unzip for installing CONSUL
-RUN yum -y install unzip && \
-    yum clean all
+RUN rm -Rf /etc/yum.repos.d/epel.repo   \
+    && yum -y install unzip             \
+    && yum clean all
 
 # Install Consul
 # Releases at https://releases.hashicorp.com/consul

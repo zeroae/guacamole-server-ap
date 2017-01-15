@@ -1,0 +1,23 @@
+{
+  "consul": "{{ if .CONSUL_AGENT }}localhost{{ else }}{{ if .CONSUL }}{{ .CONSUL }}{{ else }}consul{{ end }}{{ end }}:8500",
+  "services": [
+    {
+      "name": "guacd",
+      "port": 4822,
+      "poll": 10,
+      "ttl": 25
+    }
+  ],
+  "coprocesses": [{{ if .CONSUL_AGENT }}
+    {
+      "command": ["/usr/local/bin/consul", "agent",
+                  "-data-dir=/var/lib/consul",
+                  "-config-dir=/etc/consul",
+                  "-rejoin",
+                  "-retry-join", "{{ if .CONSUL }}{{ .CONSUL }}{{ else }}consul{{ end }}",
+                  "-retry-max", "10",
+                  "-retry-interval", "10s"],
+      "restarts": "unlimited"
+    }{{ end }}]
+
+}

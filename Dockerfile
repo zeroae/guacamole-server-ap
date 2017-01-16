@@ -46,7 +46,7 @@ RUN curl --retry 7 --fail -Lso /tmp/consul-template.zip \
 
 # Install ContainerPilot
 # Releases at https://github.com/joyent/containerpilot/
-RUN curl --retry7 --fail -Lso /tmp/containerpilot.tar.gz \
+RUN curl --retry 7 --fail -Lso /tmp/containerpilot.tar.gz \
          "https://github.com/joyent/containerpilot/releases/download/${CONTAINERPILOT_VERSION}/containerpilot-${CONTAINERPILOT_VERSION}.tar.gz" \
     && echo "${CONTAINERPILOT_SHA1}  /tmp/containerpilot.tar.gz" | sha1sum -c \
     && tar zxf /tmp/containerpilot.tar.gz -C /usr/local/bin \
